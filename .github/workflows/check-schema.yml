@@ -6,7 +6,7 @@ env:
   APOLLO_VCS_COMMIT: ${{ github.event.pull_request.head.sha }}
   APOLLO_KEY: ${{ secrets.APOLLO_KEY }}
   APOLLO_GRAPH_NAME: ${{ secrets.APOLLO_GRAPH_NAME }}
-  APOLLO_GRAPH_REF: ${{ secrets.APOLLO_GRAPH_NAME }}@production
+  APOLLO_GRAPH_REF: ${{ secrets.APOLLO_GRAPH_NAME }}@current
   SUBGRAPH_NAME: foo-bar
 
 jobs:

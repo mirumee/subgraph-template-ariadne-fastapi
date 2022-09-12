@@ -10,7 +10,7 @@ env:
   SUBGRAPH_NAME: foo-bar
 
 jobs:
-  build:
+  check-schema:
     runs-on: ubuntu-latest
     environment: apollo
     steps:

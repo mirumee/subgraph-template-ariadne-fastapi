@@ -11,6 +11,7 @@ env:
 
 jobs:
   check-schema:
+    name: Check schema with Apollo Studio
     runs-on: ubuntu-latest
     environment: apollo
     steps:

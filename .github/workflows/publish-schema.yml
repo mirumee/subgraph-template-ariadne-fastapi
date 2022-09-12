@@ -15,7 +15,8 @@ env:
   ROUTING_URL: ${{ secrets.PRODUCTION_URL }}
 
 jobs:
-  check-schema:
+  publish-schema:
+    name: Publish schema on Apollo Studio
     runs-on: ubuntu-latest
     environment: apollo
     steps:

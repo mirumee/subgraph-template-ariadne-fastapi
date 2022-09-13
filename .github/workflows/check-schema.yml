@@ -1,6 +1,14 @@
-name: Check Schema with Apollo Studio
+name: Tests and schema checks
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  pull_request:
+    branches: [main]
+  workflow_call:
+    secrets:
+      APOLLO_GRAPH_NAME:
+        required: false
+      APOLLO_KEY:
+        required: false
 
 env:
   APOLLO_VCS_COMMIT: ${{ github.event.pull_request.head.sha }}
@@ -10,12 +18,19 @@ env:
   SUBGRAPH_NAME: foo-bar
 
 jobs:
+  tests:
+    name: Tests
+    uses: ./.github/workflows/test.yml
+
   check-schema:
+    needs: [tests]
     name: Check schema with Apollo Studio
     runs-on: ubuntu-latest
     environment: apollo
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: ${{ needs.tests.outputs.schema_artifact }}
       - name: Install Rover
         run: |
           curl -sSL https://rover.apollo.dev/nix/latest | sh
@@ -23,10 +38,18 @@ jobs:
       - name: Check new schema with Apollo Studio
         if: env.APOLLO_KEY != ''&& env.APOLLO_GRAPH_NAME != ''
         run: |
-          rover subgraph check ${{ env.APOLLO_GRAPH_REF }} --schema ./api/schema.graphql --name ${{ env.SUBGRAPH_NAME }}
+          rover subgraph check ${{ env.APOLLO_GRAPH_REF }} --schema ${{ needs.tests.outputs.schema }} --name ${{ env.SUBGRAPH_NAME }}
       - name: No Apollo Studio Api Key is set
         if: env.APOLLO_KEY == ''
-        run: echo "::warning file=.github/workflows/publish-schema.yml,line=13,col=1,endColumn=1::No Apollo Studio Api Key is set in repository. Set this in the repository secrets under APOLLO_KEY"
+        run:
+          echo "::warning
+          file=.github/workflows/publish-schema.yml,line=13,col=1,endColumn=1::No
+          Apollo Studio Api Key is set in repository. Set this in the repository
+          secrets under APOLLO_KEY"
       - name: No Apollo Studio Graph Name is set
         if: env.APOLLO_GRAPH_NAME == ''
-        run: echo "::warning file=.github/workflows/publish-schema.yml,line=13,col=1,endColumn=1::No Apollo Studio Graph Name is set in repository. Set this in the repository secrets under APOLLO_GRAPH_NAME"
+        run:
+          echo "::warning
+          file=.github/workflows/publish-schema.yml,line=13,col=1,endColumn=1::No
+          Apollo Studio Graph Name is set in repository. Set this in the
+          repository secrets under APOLLO_GRAPH_NAME"

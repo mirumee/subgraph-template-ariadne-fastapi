@@ -26,9 +26,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: apollo
     steps:
-      - uses: actions/download-artifact@v3
-        with:
-          name: ${{ needs.test-and-check-schema.outputs.schema_artifact }}
       - name: Install Rover
         run: |
           curl -sSL https://rover.apollo.dev/nix/latest | sh
@@ -36,7 +33,7 @@ jobs:
       - name: Publish your schema to registry
         if: ${{ env.APOLLO_KEY != '' }} &&  $ {{ secrets.APOLLO_GRAPH_NAME != ''}}
         run: |
-          rover subgraph publish ${{ env.APOLLO_GRAPH_REF }} --schema ${{ needs.test-and-check-schema.outputs.schema }} --name ${{ env.SUBGRAPH_NAME }} --routing-url=${{ env.ROUTING_URL }}
+          rover subgraph publish ${{ env.APOLLO_GRAPH_REF }} --schema ./api/schema.graphql --name ${{ env.SUBGRAPH_NAME }} --routing-url=${{ env.ROUTING_URL }}
       - name: No Apollo Studio Api Key is set
         if: env.APOLLO_KEY == ''
         run: echo "::warning file=.github/workflows/publish-schema.yml,line=13,col=1,endColumn=1::No Apollo Studio Api Key is set in repository. Set this in the repository secrets under APOLLO_KEY"

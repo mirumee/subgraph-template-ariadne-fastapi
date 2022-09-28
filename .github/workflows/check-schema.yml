@@ -6,11 +6,11 @@ on:
   workflow_call:
     secrets:
       APOLLO_GRAPH_REF:
-        required: false
+        required: true
       APOLLO_KEY:
-        required: false
+        required: true
       SUBGRAPH_NAME:
-        required: false
+        required: true
 
 env:
   APOLLO_KEY: ${{ secrets.APOLLO_KEY }}
@@ -33,4 +33,4 @@ jobs:
           echo "$HOME/.rover/bin" >> $GITHUB_PATH
       - name: Check new schema with Apollo Studio
         run: |
-          rover subgraph check ${{ env.APOLLO_GRAPH_REF }} --schema ./api/schema.graphql --name ${{ env.SUBGRAPH_NAME }}
+          rover subgraph check ${{ secrets.APOLLO_GRAPH_REF }} --schema ./api/schema.graphql --name ${{ secrets.SUBGRAPH_NAME }}

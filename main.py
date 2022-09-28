@@ -5,4 +5,4 @@ from api.schema import schema
 
 
 app = FastAPI()
-app.add_route("/graphql", GraphQL(schema))
+app.add_route("/", GraphQL(schema))

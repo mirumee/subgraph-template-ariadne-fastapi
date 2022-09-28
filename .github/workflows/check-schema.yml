@@ -31,9 +31,6 @@ jobs:
         run: |
           curl -sSL https://rover.apollo.dev/nix/latest | sh
           echo "$HOME/.rover/bin" >> $GITHUB_PATH
-      - name: Check
-        run: |
-          rover config whoami
       - name: Check new schema with Apollo Studio
         run: |
           rover subgraph check ${{ secrets.APOLLO_GRAPH_REF }} --schema ./api/schema.graphql --name ${{ secrets.SUBGRAPH_NAME }}

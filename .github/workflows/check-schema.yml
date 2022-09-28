@@ -21,6 +21,7 @@ jobs:
     uses: ./.github/workflows/test.yml
 
   check-schema:
+    if: false
     needs: [tests]
     name: Check schema with Apollo Studio
     runs-on: ubuntu-latest

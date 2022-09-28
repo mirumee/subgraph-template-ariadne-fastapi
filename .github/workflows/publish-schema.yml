@@ -17,6 +17,7 @@ jobs:
     secrets: inherit
 
   publish-schema:
+    if: false
     needs: [test-and-check-schema]
     name: Publish schema on Apollo Studio
     runs-on: ubuntu-latest

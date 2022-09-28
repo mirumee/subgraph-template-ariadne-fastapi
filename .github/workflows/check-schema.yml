@@ -6,11 +6,11 @@ on:
   workflow_call:
     secrets:
       APOLLO_GRAPH_REF:
-        required: true
+        required: false
       APOLLO_KEY:
-        required: true
+        required: false
       SUBGRAPH_NAME:
-        required: true
+        required: false
 
 env:
   APOLLO_KEY: ${{ secrets.APOLLO_KEY }}

@@ -9,7 +9,7 @@ directive @contact(
 
 schema
   @contact(
-    name: "FooBar Server Team"
+    name: "Server Team"
     url: "https://myteam.slack.com/archives/teams-chat-room-url"
     description: "send urgent issues to [#oncall](https://yourteam.slack.com/archives/oncall)."
   ) {
@@ -17,9 +17,10 @@ schema
 }
 
 type Query {
-  foo(id: ID!): Foo
+  thing(id: ID!): Thing
 }
-type Foo @key(fields: "id") {
+
+type Thing @key(fields: "id") {
   id: ID!
   name: String
 }

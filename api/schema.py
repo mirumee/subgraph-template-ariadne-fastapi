@@ -10,19 +10,19 @@ HERE = Path(__file__).parent
 query = ObjectType("Query")
 
 
-@query.field("foo")
-def resolve_foo(*_, id: str):
-    return {"id": id, "name": "Foo"}
+@query.field("thing")
+def resolve_thing(*_, id: str):
+    return {"id": id, "name": "Thing"}
 
 
-foo = FederatedObjectType("Foo")
+thing = FederatedObjectType("Thing")
 
 
-@foo.reference_resolver
-def resolve_foo_reference(_, _info, representation):
-    return {"id": representation["id"], "name": "Foo"}
+@thing.reference_resolver
+def resolve_thing_reference(_, _info, representation):
+    return {"id": representation["id"], "name": "Thing"}
 
 
 type_defs = load_schema_from_path(str(HERE / "schema.graphql"))
 
-schema = make_federated_schema(type_defs, query, foo)
+schema = make_federated_schema(type_defs, query, thing)

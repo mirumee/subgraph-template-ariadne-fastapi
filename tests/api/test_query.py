@@ -6,17 +6,17 @@ from main import app
 client = TestClient(app)
 
 
-def test_query_foo():
-    response = client.post("/graphql", json={"query": "{ foo(id: 1) { id name } }"})
+def test_query_thing():
+    response = client.post("/", json={"query": "{ thing(id: 1) { id name } }"})
     assert response.status_code == 200
-    assert response.json() == {"data": {"foo": {"id": "1", "name": "Foo"}}}
+    assert response.json() == {"data": {"thing": {"id": "1", "name": "Thing"}}}
 
 
-def test_entities_foo():
+def test_entities_thing():
     query = """
         query {
-            _entities(representations: [{ __typename:"Foo", id:"1" }]) {
-                ...on Foo {
+            _entities(representations: [{ __typename: "Thing", id: "1" }]) {
+                ...on Thing {
                     id
                     name
                 }
@@ -24,6 +24,6 @@ def test_entities_foo():
         }
     """
 
-    response = client.post("/graphql", json={"query": query})
+    response = client.post("/", json={"query": query})
     assert response.status_code == 200
-    assert response.json() == {"data": {"_entities": [{"id": "1", "name": "Foo"}]}}
+    assert response.json() == {"data": {"_entities": [{"id": "1", "name": "Thing"}]}}

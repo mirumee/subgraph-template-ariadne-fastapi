@@ -30,4 +30,4 @@ jobs:
           echo "$HOME/.rover/bin" >> $GITHUB_PATH
       - name: Publish your schema to registry
         run: |
-          rover subgraph publish ${{ secrets.APOLLO_GRAPH_REF }} --schema ./api/schema.graphql --name ${{ secrets.SUBGRAPH_NAME }} --routing-url=${{ secrets.ROUTING_URL }}
+          rover subgraph publish ${{ secrets.APOLLO_GRAPH_REF }} --schema ./api/schema.graphql --name ${{ secrets.SUBGRAPH_NAME }} --routing-url=${{ secrets.PRODUCTION_URL }}
